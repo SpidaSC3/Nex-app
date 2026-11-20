@@ -31,29 +31,7 @@ interface ChatScreenProps {
   onLogout: () => void;
 }
 
-const initialConversations: Conversation[] = [
-  {
-    id: 'maya',
-    username: 'maya.chen',
-    messages: [
-      { id: 'maya-1', text: 'Hi! I just set up NexChat.', sender: 'them', time: '9:40' },
-      { id: 'maya-2', text: 'Welcome. This is a sample conversation in the prototype.', sender: 'me', time: '9:41' },
-      { id: 'maya-3', text: 'Got it. Looking forward to trying the real thing.', sender: 'them', time: '9:42' },
-    ],
-  },
-  {
-    id: 'jordan',
-    username: 'jordan.lee',
-    messages: [
-      { id: 'jordan-1', text: 'Can you see this sample message?', sender: 'them', time: 'Yesterday' },
-    ],
-  },
-  {
-    id: 'sam',
-    username: 'sam.rivera',
-    messages: [],
-  },
-];
+const initialConversations: Conversation[] = [];
 
 const initialsFor = (username: string) =>
   username
@@ -151,7 +129,7 @@ export default function ChatScreen({ username, onLogout }: ChatScreenProps) {
             {item.username}
           </Text>
           <Text style={styles.conversationPreview} numberOfLines={1}>
-            {lastMessage?.text ?? 'Start a sample conversation'}
+            {lastMessage?.text ?? 'Start a conversation'}
           </Text>
         </View>
         <Text style={styles.conversationTime}>{lastMessage?.time ?? 'New'}</Text>
@@ -169,10 +147,6 @@ export default function ChatScreen({ username, onLogout }: ChatScreenProps) {
           <Text style={styles.headerBrandName}>nexchat</Text>
         </View>
         <View style={styles.headerRight}>
-          <View style={styles.demoBadge}>
-            <View style={styles.demoBadgeDot} />
-            <Text style={styles.demoBadgeText}>LOCAL DEMO</Text>
-          </View>
           <Pressable
             style={styles.userChip}
             onPress={() => {
@@ -260,7 +234,7 @@ export default function ChatScreen({ username, onLogout }: ChatScreenProps) {
                     <View style={styles.emptyList}>
                       <Text style={styles.emptyTitle}>No conversations found</Text>
                       <Text style={styles.emptyDescription}>
-                        Start a new demo conversation with a username.
+                        Start a conversation with a username.
                       </Text>
                     </View>
                   }
@@ -286,7 +260,7 @@ export default function ChatScreen({ username, onLogout }: ChatScreenProps) {
                 </View>
                 <Text style={styles.emptyThreadTitle}>A quieter kind of conversation.</Text>
                 <Text style={styles.emptyThreadDescription}>
-                  Choose a sample chat or start a new one. Messages stay on this device in the prototype.
+                  Choose a conversation or enter a username to start one.
                 </Text>
                 <Pressable style={styles.emptyThreadButton} onPress={openNewChat}>
                   <Text style={styles.emptyThreadButtonText}>Start a conversation</Text>
@@ -320,7 +294,7 @@ export default function ChatScreen({ username, onLogout }: ChatScreenProps) {
               </Pressable>
             </View>
             <Text style={styles.modalDescription}>
-              Enter a username to open a local demo chat. No connection is made.
+              Enter a username to open a conversation.
             </Text>
             <TextInput
               style={styles.modalInput}
@@ -338,7 +312,7 @@ export default function ChatScreen({ username, onLogout }: ChatScreenProps) {
             />
             {formError ? <Text style={styles.errorText}>{formError}</Text> : null}
             <Pressable style={styles.modalPrimaryButton} onPress={createConversation}>
-              <Text style={styles.modalPrimaryButtonText}>Open demo chat</Text>
+              <Text style={styles.modalPrimaryButtonText}>Open conversation</Text>
             </Pressable>
           </View>
         </View>
@@ -420,7 +394,7 @@ function ChatThread({
         <Avatar username={conversation.username} />
         <View style={styles.threadHeaderCopy}>
           <Text style={styles.threadName} numberOfLines={1}>{conversation.username}</Text>
-          <Text style={styles.threadStatus}>Demo conversation · not connected</Text>
+          <Text style={styles.threadStatus}>Local preview · no server connected</Text>
         </View>
         <View style={styles.notConnectedPill}>
           <View style={styles.notConnectedDot} />
@@ -430,7 +404,7 @@ function ChatThread({
 
       <View style={styles.threadNotice}>
         <Text style={styles.threadNoticeText}>
-          Prototype only. Messages are stored in app memory on this device and are not sent or encrypted.
+          Local preview only. Messages are not sent or encrypted.
         </Text>
       </View>
 
@@ -447,9 +421,9 @@ function ChatThread({
         ListEmptyComponent={
           <View style={styles.firstMessage}>
             <Avatar username={conversation.username} />
-            <Text style={styles.firstMessageTitle}>A new demo conversation</Text>
+            <Text style={styles.firstMessageTitle}>A new conversation</Text>
             <Text style={styles.firstMessageDescription}>
-              Write a message to see it appear locally. It will not reach {conversation.username}.
+              Write a message to preview the interface. It will not reach {conversation.username}.
             </Text>
           </View>
         }
@@ -461,7 +435,7 @@ function ChatThread({
             style={styles.composerInput}
             value={draft}
             onChangeText={onDraftChange}
-            placeholder="Type a local demo message"
+            placeholder="Type a message"
             placeholderTextColor="#81908D"
             multiline
             maxLength={2000}
@@ -478,7 +452,7 @@ function ChatThread({
             <Text style={styles.sendButtonText}>Send</Text>
           </Pressable>
         </View>
-        <Text style={styles.composerCaption}>Saved only in this demo session</Text>
+        <Text style={styles.composerCaption}>Local preview session</Text>
       </View>
     </View>
   );
@@ -494,15 +468,15 @@ function ProfilePanel({ username, onLogout }: { username: string; onLogout: () =
           <Avatar username={username} />
           <View>
             <Text style={styles.profileUsername}>{username}</Text>
-            <Text style={styles.profileSubtext}>Username-only demo account</Text>
+            <Text style={styles.profileSubtext}>Username-only account</Text>
           </View>
         </View>
 
         <View style={styles.privacyCard}>
-          <Text style={styles.privacyCardTitle}>What this prototype does</Text>
-          <PrivacyItem title="No personal details" detail="The demo asks only for a username and password." />
-          <PrivacyItem title="No real sign-in" detail="Any non-empty credentials are accepted locally." />
-          <PrivacyItem title="No message transport" detail="Messages are held in memory and disappear when you leave." />
+          <Text style={styles.privacyCardTitle}>Current preview status</Text>
+          <PrivacyItem title="No personal details" detail="Only a username and password are requested." />
+          <PrivacyItem title="Local sign-in preview" detail="Credentials are not currently sent to a server." />
+          <PrivacyItem title="No message transport" detail="Messages are held in memory and do not leave this device." />
           <PrivacyItem title="No encryption yet" detail="Peer-to-peer WebRTC and end-to-end encryption are not implemented." />
         </View>
 

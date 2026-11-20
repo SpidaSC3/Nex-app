@@ -81,13 +81,6 @@ export default function App() {
                   Sign in with a username and password. No phone number or email required.
                 </Text>
 
-                <View style={styles.demoNotice}>
-                  <View style={styles.noticeDot} />
-                  <Text style={styles.demoNoticeText}>
-                    Prototype mode · This sign-in is a local demo, not a real account.
-                  </Text>
-                </View>
-
                 <View style={styles.form}>
                   <Text style={styles.label}>Username</Text>
                   <TextInput
@@ -154,9 +147,6 @@ export default function App() {
                   </View>
                 </View>
 
-                <Text style={styles.footerText}>
-                  Messages are not transmitted or encrypted in this prototype.
-                </Text>
               </View>
             </ScrollView>
           </KeyboardAvoidingView>
